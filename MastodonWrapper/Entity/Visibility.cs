@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MastodonWrapper
+namespace MastodonWrapper.Entity
 {
-    public class Class1
+    public enum Visibility
     {
+        Public,
+        Unlisted,
+        Private,
+        Direct,
     }
 }
