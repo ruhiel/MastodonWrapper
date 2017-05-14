@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace MastodonWrapper.Client
 {
-    public class DynamicMastodonClient : AbstractMastodonClient
+    public class MastodonDynamicClient : AbstractMastodonClient
     {
 
-        public DynamicMastodonClient(string host, string accessToken = null) : base(host, accessToken)
+        public MastodonDynamicClient(string host, string accessToken = null) : base(host, accessToken)
         {
 
         }
@@ -49,7 +49,7 @@ namespace MastodonWrapper.Client
         }
         #endregion
         #region Getting an account's followers
-        public async new Task<StreamContent> GetFollowers(int id, int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetFollowers(int id, int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetFollowers(id, max_id, since_id, limit);
 
@@ -57,7 +57,7 @@ namespace MastodonWrapper.Client
         }
         #endregion
         #region Getting who account is following
-        public async new Task<StreamContent> GetFollowing(int id, int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetFollowing(int id, int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetFollowing(id, max_id, since_id, limit);
 
@@ -65,7 +65,6 @@ namespace MastodonWrapper.Client
         }
         #endregion
         #region Getting an account's statuses
-
         public async new Task<dynamic[]> GetAccountsStatuses(int id, bool? only_media = null, bool? exclude_replies = null, int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetAccountsStatuses(id, only_media, exclude_replies, max_id, since_id, limit);
@@ -102,14 +101,12 @@ namespace MastodonWrapper.Client
         }
         #endregion
         #region Muting/unmuting an account
-
         public async new Task<dynamic> Mute(int id)
         {
             var response = await base.Mute(id);
 
             return DynamicJson.Parse(response.Content);
         }
-
         public async new Task<dynamic> UnMute(int id)
         {
             var response = await base.UnMute(id);
@@ -157,7 +154,7 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Blocks
         #region Fetching a user's blocks
-        public async new Task<StreamContent> GetBlocks(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetBlocks(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetBlocks(max_id, since_id, limit);
 
@@ -167,7 +164,7 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Favourites
         #region Fetching a user's favourites
-        public async new Task<StreamContent> GetFavourites(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetFavourites(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetFavourites(max_id, since_id, limit);
 
@@ -177,7 +174,7 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Follow Requests
         #region Fetching a list of follow requests
-        public async new Task<StreamContent> GetFollowRequests(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetFollowRequests(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetFollowRequests(max_id, since_id, limit);
 
@@ -227,7 +224,7 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Mutes
         #region Fetching a user's mutes
-        public async new Task<StreamContent> GetMutes(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetMutes(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetMutes(max_id, since_id, limit);
 
@@ -237,7 +234,7 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Notifications
         #region Fetching a user's notifications
-        public async new Task<StreamContent> GetNotifications(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetNotifications(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetNotifications(max_id, since_id, limit);
 
@@ -374,21 +371,21 @@ namespace MastodonWrapper.Client
         #endregion
         #region * Timelines
         #region Retrieving a timeline
-        public async new Task<StreamContent> GetHomeTimeline(int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetHomeTimeline(int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetHomeTimeline(max_id, since_id, limit);
 
             return CreateStreamContent(response);
         }
 
-        public async new Task<StreamContent> GetPublicTimeline(bool? local = null, int? max_id = null, int? since_id = null, int? limit = 20)
+        public async new Task<StreamContent<dynamic>> GetPublicTimeline(bool? local = null, int? max_id = null, int? since_id = null, int? limit = 20)
         {
             var response = await base.GetPublicTimeline(local, max_id, since_id, limit);
 
             return CreateStreamContent(response);
         }
         
-        public async new Task<StreamContent> GetHashtagTimeline(string hashtag, bool? local = null, int? max_id = null, int? since_id = null, int? limit = null)
+        public async new Task<StreamContent<dynamic>> GetHashtagTimeline(string hashtag, bool? local = null, int? max_id = null, int? since_id = null, int? limit = null)
         {
             var response = await base.GetHashtagTimeline(hashtag, local, max_id, since_id, limit);
 
@@ -397,19 +394,12 @@ namespace MastodonWrapper.Client
         #endregion
         #endregion
         #region private Methods
-        private StreamContent CreateStreamContent(IRestResponse response)
+        private StreamContent<dynamic> CreateStreamContent(IRestResponse response)
         {
-            var linkHeader = response.Headers.FirstOrDefault(x => x.Name == "Link");
-
-            var streamContent = new StreamContent();
-
-            streamContent.Content = DynamicJson.Parse(response.Content);
-            var header = linkHeader.Value.ToString().GetHeader();
-            streamContent.Next = header.next;
-            streamContent.Prev = header.prev;
-
-            return streamContent;
+            return CreateStreamContent(response, Deserialize);
         }
+
+        private dynamic[] Deserialize(string value) => DynamicJson.Parse(value);
         #endregion
     }
 }

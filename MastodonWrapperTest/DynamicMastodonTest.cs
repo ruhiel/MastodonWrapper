@@ -10,38 +10,12 @@ using MastodonWrapper.Entity;
 namespace MastodonWrapperTest
 {
     [TestClass]
-    public class DynamicMastodonTest
+    public class DynamicMastodonTest : BaseTest
     {
-        private static string _AccessToken;
-        private static string _Host;
-        private static int _TestUserID;
-        private static int _TestTargetUserId;
-        private static string _TestPicture;
-        private static string _RemoteUser;
-
-        [AssemblyInitialize]
-        public static void AssemblyInit(TestContext context)
-        {
-            // アセンブリ内のすべてのテストが実行される前に、アセンブリによって取得されるリソースを割り当てるために使用されるコードを含むメソッドを識別します。 
-            Trace.WriteLine("AssemblyInit " + context.TestName);
-
-            _AccessToken = Environment.GetEnvironmentVariable("TestAuthCode");
-
-            _Host = Environment.GetEnvironmentVariable("TestHost");
-
-            _TestUserID = int.Parse(Environment.GetEnvironmentVariable("TestUserID"));
-
-            _TestTargetUserId = int.Parse(Environment.GetEnvironmentVariable("TestTargetUserId"));
-
-            _TestPicture = Environment.GetEnvironmentVariable("TestPicture");
-
-            _RemoteUser = Environment.GetEnvironmentVariable("RemoteUser");
-        }
-
         [TestMethod]
         public async Task TestGetAccount()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetAccount(id);
@@ -52,7 +26,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetCurrentAccount()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetCurrentAccount();
@@ -63,7 +37,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestUpdateAccount()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var account = await client.GetCurrentAccount();
@@ -76,7 +50,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetFollowers()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetFollowers(id);
@@ -89,7 +63,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetFollowing()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetFollowing(id);
@@ -102,7 +76,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetAccountsStatuses()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetAccountsStatuses(id);
@@ -113,7 +87,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestFollow()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestTargetUserId;
 
             var result = await client.Follow(id);
@@ -124,7 +98,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestUnfollow()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestTargetUserId;
 
             var result = await client.Unfollow(id);
@@ -135,7 +109,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestBlock()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestTargetUserId;
 
             var result = await client.Block(id);
@@ -150,7 +124,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestMute()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestTargetUserId;
 
             var result = await client.Mute(id);
@@ -165,7 +139,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetRelationships()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var result = await client.GetRelationships(id);
@@ -180,7 +154,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestSearchAccount()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestUserID;
 
             var account = await client.GetCurrentAccount();
@@ -193,7 +167,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestRegister()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.Register("MastodonClient", OAuthScope.of(Scope.Read, Scope.Write, Scope.Follow));
 
@@ -211,7 +185,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetBlocks()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var id = _TestTargetUserId;
 
             await client.Block(id);
@@ -226,7 +200,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetFavourites()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetFavourites();
 
@@ -236,7 +210,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestAuthorizeFollowRequest()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var requests = await client.GetFollowRequests();
 
@@ -250,7 +224,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestRejectFollowRequest()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var requests = await client.GetFollowRequests();
 
@@ -264,7 +238,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestFollowRemoteUser()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.FollowRemoteUser(_RemoteUser);
 
@@ -274,7 +248,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetInstance()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetInstance();
 
@@ -284,7 +258,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetMutes()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetMutes();
 
@@ -294,7 +268,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetNotifications()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetNotifications();
 
@@ -310,7 +284,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestClearNotifications()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             await client.ClearNotifications();
         }
@@ -328,7 +302,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestSearch()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var result = await client.Search("超会議");
             var statuses = (object[])result.hashtags;
 
@@ -338,7 +312,7 @@ namespace MastodonWrapperTest
         [Ignore]
         public async Task TestGetStatusCard()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             int id = 0;
             var card = await client.GetStatusCard(id);
@@ -349,7 +323,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestPostStatus()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var media = await client.UploadMedia(new FileInfo(_TestPicture));
 
@@ -375,7 +349,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestReblog()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var statuses = await client.GetAccountsStatuses(_TestTargetUserId);
 
@@ -409,7 +383,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetHomeTimeline()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetHomeTimeline(limit: 20);
 
@@ -419,7 +393,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetPublicTimeline()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
             var result = await client.GetPublicTimeline(limit: 20);
 
             Assert.AreEqual(20, result.Content.Length);
@@ -428,7 +402,7 @@ namespace MastodonWrapperTest
         [TestMethod]
         public async Task TestGetHashtagTimeline()
         {
-            var client = new DynamicMastodonClient(_Host, _AccessToken);
+            var client = new MastodonDynamicClient(_Host, _AccessToken);
 
             var result = await client.GetHashtagTimeline(hashtag: "超会議", limit: 20);
 

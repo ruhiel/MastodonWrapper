@@ -518,5 +518,19 @@ namespace MastodonWrapper.Client
         {
             return $"https://{host}/oauth/authorize?response_type=code&client_id={clientid}&scope={scope.ToString().Replace(" ", "%20")}&redirect_uri={redirectUri}";
         }
+
+        protected StreamContent<T> CreateStreamContent<T>(IRestResponse response, Func<string, T[]> deserializer)
+        {
+            var linkHeader = response.Headers.FirstOrDefault(x => x.Name == "Link");
+
+            var streamContent = new StreamContent<T>();
+
+            streamContent.Content = deserializer(response.Content);
+            var header = linkHeader.Value.ToString().GetHeader();
+            streamContent.Next = header.next;
+            streamContent.Prev = header.prev;
+
+            return streamContent;
+        }
     }
 }

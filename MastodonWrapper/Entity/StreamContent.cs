@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MastodonWrapper.Entity
 {
-    public class StreamContent
+    public class StreamContent<T>
     {
-        public dynamic[] Content { get; set; }
+        public T[] Content { get; set; }
         public int? Prev { get; set; }
         public int? Next { get; set; }
     }

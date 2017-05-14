@@ -33,6 +33,9 @@
     <Reference Include="FastMember, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.1.1.0\lib\net40\FastMember.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -54,8 +57,25 @@
     <Compile Include="Attributes\QueryAttribute.cs" />
     <Compile Include="Client\AbstractMastodonClient.cs" />
     <Compile Include="Client\DynamicMastodonClient.cs" />
+    <Compile Include="Client\MastodonWrapperClient.cs" />
+    <Compile Include="Entity\Account.cs" />
+    <Compile Include="Entity\Application.cs" />
+    <Compile Include="Entity\AppRegistration.cs" />
+    <Compile Include="Entity\Attachment.cs" />
+    <Compile Include="Entity\Auth.cs" />
+    <Compile Include="Entity\Card.cs" />
+    <Compile Include="Entity\Context.cs" />
+    <Compile Include="Entity\Error.cs" />
+    <Compile Include="Entity\Instance.cs" />
+    <Compile Include="Entity\Mention.cs" />
+    <Compile Include="Entity\Notification.cs" />
     <Compile Include="Entity\OAuthScope.cs" />
+    <Compile Include="Entity\Relationship.cs" />
+    <Compile Include="Entity\Report.cs" />
+    <Compile Include="Entity\Results.cs" />
     <Compile Include="Entity\Scope.cs" />
+    <Compile Include="Entity\Status.cs" />
+    <Compile Include="Entity\Tag.cs" />
     <Compile Include="Entity\Visibility.cs" />
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Entity\StreamContent.cs" />
